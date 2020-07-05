@@ -1,0 +1,898 @@
+Openscreen:#the root widget of the kv window
+# OpenScreen - is the home screen -
+# it has button for worker, for customer and for exit the application
+# the customer button will be open (not disabled) only after the worker will connect to the DB
+<Openscreen>:
+    customer_k:customer_k
+	orientation: "vertical" #vertical layout
+    canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.1
+    BoxLayout:
+        Label: #Title
+            font_size: 80
+            color: 0,0,128,1
+            text: 'Welcome to Maskup!'
+            font_name:'Gisha'
+    BoxLayout:
+        size_hint_y:2
+        Image:
+            source: 'masks.gif'
+    BoxLayout:
+        Label:
+            font_size: 60
+            color: 0,0,128,1
+            text: 'Please select your type'
+            font_name:'Gisha'
+    BoxLayout:
+        BoxLayout:
+            size_hint_x:0.9
+        ToggleButton: #Worker button
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 50
+            text:'Worker'
+            on_press:root.worker() #connecting to worker function in the python file
+        BoxLayout:
+            size_hint_x:0.8
+        ToggleButton: #Customer button
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 50
+            text:'Customer'
+            id:customer_k
+            disabled:True
+            on_press:root.customer() #connecting to customer function in the python file
+        BoxLayout:
+            size_hint_x:0.9
+    BoxLayout:
+        size_hint_y:0.3
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: #Exit button
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    source:'exit.png'
+            on_press: root.exitout()#connecting to exitout function in the python file
+
+# Connect - is the page that the worker connect to the DB by insert the host, username and password
+# there is button to connect to the DB after insert the correct input
+# and one to go back to home screen
+<Connect>
+    # global variables that connect to python
+    host:host
+    user:user
+    password:password
+	orientation: "vertical" #vertical layout
+    canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.1
+    BoxLayout:
+        Label: #Title
+            font_size: 50
+            color: 0,0,128,1
+            text: 'Please connect to the database'
+            font_name:'Gisha'
+    BoxLayout:
+        size_hint_y:0.1
+    BoxLayout:
+        size_hint_y:0.3
+    	BoxLayout:
+		    size_hint_x:0.6
+        Label:
+            text:"Enter your host:"
+            font_size: 40
+            color: 0,0,128,1
+            font_name:'Gisha'
+        TextInput: # Textbox that the worker insert the host
+			id: host
+			font_name:'Gisha'
+			font_size: 35
+		BoxLayout:
+		    size_hint_x:0.6
+    BoxLayout:
+        size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.3
+		BoxLayout:
+		    size_hint_x:0.6
+		Label:
+		    text:"Enter your user:"
+		    font_size: 40
+            color: 0,0,128,1
+            font_name:'Gisha'
+		TextInput: # Textbox that the worker insert the username
+			id: user
+			font_name:'Gisha'
+			font_size: 35
+		BoxLayout:
+		    size_hint_x:0.6
+    BoxLayout:
+        size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.3
+		BoxLayout:
+		    size_hint_x:0.6
+		Label:
+		    text:"Enter your password:"
+		    font_size: 40
+            color: 0,0,128,1
+            font_name:'Gisha'
+	    TextInput: # Textbox that the worker insert the password
+			id: password
+			font_name:'Gisha'
+			font_size: 35
+		BoxLayout:
+		    size_hint_x:0.6
+	BoxLayout:
+        size_hint_y:0.5
+    BoxLayout:
+        size_hint_y:0.4
+        BoxLayout:
+            size_hint_x:2
+        ToggleButton: # Connect buttone - to insert the inputs and connect to the DB
+            background_color: 0,0,128,0.3
+            text:'connect'
+            font_size: 30
+            font_name:'Gisha'
+            on_press:root.work_connect() #connecting to work_connect function in the python file
+        BoxLayout:
+            size_hint_x:2
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+
+# Control page - Allows the employee to control what is done in the store
+# it has the option to limit the amount of customers that are currently in the store
+# it has the option to search for which customers were in the store by date and time
+# and has the option to see how many customers are currently in the store
+<Control>
+    # global variables that connect to python
+    limit:limit
+    day:day
+    month:month
+    year:year
+    start_hour:start_hour
+    start_minute:start_minute
+    finish_hour:finish_hour
+    finish_minute:finish_minute
+	orientation: "vertical" #vertical layout
+    canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.2
+    BoxLayout:
+        size_hint_y:0.25
+        BoxLayout:
+            size_hint_x:0.3
+        Label:
+            text:"Enter the limit number of customers:"
+            font_size: 25
+            color: 0,0,128,1
+            font_name:'Gisha'
+        BoxLayout:
+            size_hint_x:0.4
+        TextInput: #textbox that the worker insert the number of customers
+            font_size: 30
+            font_name:'Gisha'
+            id: limit
+        BoxLayout:
+            size_hint_x: 0.4
+        Button: # Save limit button - will save the limit that the worker insert
+            background_color: 0,0,128,0.3
+            text: 'save limit'
+            font_size: 30
+            font_name:'Gisha'
+            on_press: root.limit_num()#connecting to limit_num function in the python file
+        BoxLayout:
+            size_hint_x: 0.3
+    BoxLayout:
+        size_hint_y:0.1
+        Label:
+            canvas.before:
+                Color:
+                    rgba: (0,0,128,0.4)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            size_hint_y: None
+            height: 2
+    BoxLayout:
+        size_hint_y:0.2
+        Label:
+            font_size: 30
+            color: 0,0,128,1
+            text: 'Who were in contact with corona patient ? '
+            font_name:'Gisha'
+    BoxLayout:
+        size_hint_y:0.2
+        Label:
+            font_size: 20
+            color: 0,0,128,1
+            text: 'Enter the date and time that corona patient visited in store'
+            font_name:'Gisha'
+	BoxLayout:
+	    size_hint_y:0.2
+	    BoxLayout:
+            size_hint_x:0.3
+	    Label:
+            font_size: 20
+            color: 0,0,128,1
+            text: 'Date'
+            font_name:'Gisha'
+        BoxLayout:
+            size_hint_x:0.4
+        Label:
+            font_size: 20
+            color: 0,0,128,1
+            text: 'From'
+            font_name:'Gisha'
+        BoxLayout:
+            size_hint_x:0.1
+        Label:
+            font_size: 20
+            color: 0,0,128,1
+            text: 'To'
+            font_name:'Gisha'
+	BoxLayout:
+	    size_hint_y:0.25
+	    Spinner: # Spinner for day - With his help, the employee will choose a day
+	        background_color: 0,0,128,0.3
+			text: "Day"
+			values:['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
+            font_name:'Gisha'
+            font_size: 25
+			id:day
+			effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+            bar_color: 0,0,0,0
+		BoxLayout:
+		    size_hint_x:0.3
+        Spinner: # Spinner for month - With his help, the employee will choose a month
+            background_color: 0,0,128,0.3
+            text: "month"
+            values:['01','02','03','04','05','06','07','08','09','10','11','12']
+            font_name:'Gisha'
+            font_size: 25
+            id:month
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+        BoxLayout:
+            size_hint_x:0.3
+        Spinner: # Spinner for year - With his help, the employee will choose a year
+            background_color: 0,0,128,0.3
+            text: "year"
+            values:['2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030']
+            font_name:'Gisha'
+            font_size: 25
+            id:year
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+        BoxLayout:
+            size_hint_x:0.2
+        Spinner: # Spinner for start hour - With his help, the employee will choose a hour
+            background_color: 0,0,128,0.3
+            text: "hour"
+            values:['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
+            font_name:'Gisha'
+            font_size: 25
+            id:start_hour
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+        BoxLayout:
+            size_hint_x:0.2
+        Spinner: # Spinner for start minute - With his help, the employee will choose a minute
+            background_color: 0,0,128,0.3
+            text: "minute"
+            values:['01','02','03','04','05','06','07','08','09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60']
+            font_name:'Gisha'
+            font_size: 25
+            id:start_minute
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+        BoxLayout:
+            size_hint_x:0.2
+        Spinner: # Spinner for end hour - With his help, the employee will choose a hour
+            text: "hour"
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 25
+            values:['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
+            id:finish_hour
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+        BoxLayout:
+            size_hint_x:0.2
+        Spinner: # Spinner for end minute - With his help, the employee will choose a minute
+            text: "minute"
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 25
+            values:['01','02','03','04','05','06','07','08','09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60']
+            id:finish_minute
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars']
+	BoxLayout:
+	    size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.25
+	    BoxLayout:
+	        size_hint_x: 2
+		Button: # Show customer button - moving to new screen that will show the customers that have been at the store in specific period
+			text: 'show customers'
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 30
+			on_press: root.sickdate()#connecting to User_Avg function in the python file
+	    BoxLayout:
+            size_hint_x:2
+    BoxLayout:
+        size_hint_y:0.1
+        Label:
+            canvas.before:
+                Color:
+                    rgba: (0,0,128,0.4)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            size_hint_y: None
+            height: 2
+    BoxLayout:
+        size_hint_y:0.2
+	BoxLayout:
+        size_hint_y:0.25
+        BoxLayout:
+            size_hint_x:1
+        Label:
+            font_size: 30
+            color: 0,0,128,1
+            text: 'Show how much customers in store now '
+            font_name:'Gisha'
+        BoxLayout:
+            size_hint_x: 1
+        Button: # Show button - show how many customers are in the store at that moment
+            text: 'Show'
+            font_size: 30
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            on_release: root.on_call_popup()#connecting to on_call_popup function in the python file
+        BoxLayout:
+            size_hint_x:1
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    size:100,100
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+        Button: # Back button - return to previous screen
+			background_color: 0,0,128,0.01
+		    canvas:
+                Rectangle:
+                    pos:home.size[0],0
+                    size:100,100
+                    source:'back.png'
+			on_press: root.back()#connecting to back function in the python file
+
+# TextInputPopup screen - Popup screen will pop and show how many customers are in the store right now
+<TextInputPopup>:
+    # global variables that connect to python
+    title: root.title
+    size_hint: None, None
+    size: app.root.width/2, app.root.height/2
+    auto_dismis: False
+    BoxLayout:
+	    orientation: "vertical" #vertical layout
+        canvas:
+            Rectangle:
+                source:"wallpaper.jpg"
+                pos: self.pos
+                size: self.size
+        Label:
+            text: root.label # result from python will show
+            font_size:30
+            font_name:'Gisha'
+        BoxLayout:
+            size_hint_y:0.2
+            BoxLayout:
+                size_hint_x:0.5
+            Button: # OK button - will close the Popup screen
+                background_color: 0,0,128,0.3
+                font_name:'Gisha'
+                text: 'OK'
+                font_size:30
+                on_press: root.dismiss()
+            BoxLayout:
+                size_hint_x:0.5
+        BoxLayout:
+            size_hint_y:0.2
+
+# Showsick screen - will show a list of customer name and their phone number
+# only the customers that have been at the store at the selected date and time
+<Showsick>
+    # global variables that connect to python
+    res:res
+	orientation: "vertical" #vertical layout
+	canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.2
+	BoxLayout:
+        size_hint_y:0.2
+        Label:
+            font_size: 40
+            color: 0,0,128,1
+            text: 'The customer that be in contact with corona patient : '
+            font_name:'Gisha'
+	Label: # show the records from the DB from python
+		id: res
+        font_name:'Gisha'
+		size_hint_y: 2
+		font_size:30
+		color: 0,0,128,1
+	BoxLayout:
+	    size_hint_x: 0.1
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    size:100,100
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+        Button: # Back button - return to previos screen
+			background_color: 0,0,128,0.01
+		    canvas:
+                Rectangle:
+                    pos:home.size[0],0
+                    size:100,100
+                    source:'back.png'
+			on_press: root.back()#connecting to back function in the python file
+
+# Nomask screen - will show Error msg for customers that don't wear mask face
+<Nomask>:
+	orientation: "vertical" #vertical layout
+	canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.05
+    BoxLayout:
+        Label:
+            font_size: 60
+            color: 0,0,128,1
+            text: 'Please put on mask'
+            font_name:'Gisha'
+    BoxLayout:
+        Label:
+            font_size: 60
+            color: 0,0,128,1
+            text: 'You can not enter the store without mask!'
+            font_name:'Gisha'
+    BoxLayout:
+        Image:
+            source:'stop.gif'
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+
+# Choose screen - will show two option for customer - or entering the store or exiting
+# if the number of the customer that in the store equal to the limit number -
+# the enter button will be close
+<Choose>:
+    # global variables that connect to python
+    enter:enter
+	orientation: "vertical" #vertical layout
+    canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y:0.1
+    BoxLayout:
+        Label:
+            font_size: 50
+            color: 0,0,128,1
+            text: 'Please choose your activity'
+            font_name:'Gisha'
+    BoxLayout:
+        size_hint_y:2
+
+        Image:
+            source: 'shopping.png'
+    BoxLayout:
+        BoxLayout:
+            size_hint_x:0.9
+        ToggleButton: # Enter button - moves to the next screen that help the customer to enter the store
+            text:'Enter'
+            id: enter
+            disabled:True
+            on_press:root.enterbutton()  #connecting to enterbutton function in the python file
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 50
+            font_bold: True
+        BoxLayout:
+            size_hint_x:0.8
+        ToggleButton: # Exit button - moves to the next screen that help the customer to exit the store
+            text:'Exit'
+            on_press:root.exitbutton() #connecting to exitbutton function in the python file
+            background_color: 0,0,128,0.3
+            font_name:'Gisha'
+            font_size: 50
+            font_bold: True
+        BoxLayout:
+            size_hint_x:0.9
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+
+# InputForm screen - shows a form that the customer need to fill before entering the store
+<InputForm>:
+    #global variables that connecting to the python
+    first_name:first_name
+	last_name:last_name
+	phone:phone
+	orientation: "vertical" #vertical layout
+	#Vertical spacing at the beginning of the window
+	canvas:
+        Rectangle:
+            source:"wallpaper.jpg"
+            pos: self.pos
+            size: self.size
+	BoxLayout:
+	    size_hint_y:0.1
+    BoxLayout:
+        Label:
+            font_size: 50
+            color: 0,0,128,1
+            text: 'Please write your details'
+            font_name:'Gisha'
+    BoxLayout:
+		size_hint_y:0.1
+	BoxLayout:
+	    size_hint_y:0.3
+	    BoxLayout:
+	        size_hint_x:0.6
+        Label:
+            font_size: 30
+            color: 0,0,128,1
+            font_name:'Gisha'
+            text:"Enter your first name:"
+        TextInput: # Textbox to insert the first name
+			id: first_name
+			font_size: 30
+			font_name:'Gisha'
+		BoxLayout:
+		    size_hint_x:0.6
+	BoxLayout:
+	    size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.3
+		BoxLayout:
+		    size_hint_x:0.6
+		Label:
+		    font_size: 30
+            color: 0,0,128,1
+            font_name:'Gisha'
+		    text:"Enter your last name:"
+		TextInput: # Textbox to insert the last name
+			id: last_name
+			font_size: 30
+			font_name:'Gisha'
+		BoxLayout:
+		    size_hint_x:0.6
+	BoxLayout:
+	    size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.3
+		BoxLayout:
+		    size_hint_x:0.6
+		Label:
+		    font_size: 30
+            color: 0,0,128,1
+            font_name:'Gisha'
+		    text:"Enter your phone number:"
+	    TextInput: # Textbox to insert the phone number
+	        font_size: 30
+			font_name:'Gisha'
+			id: phone
+		BoxLayout:
+		    size_hint_x:0.6
+	BoxLayout:
+	    size_hint_y:0.5
+	BoxLayout:
+	    size_hint_y:0.4
+	    BoxLayout:
+	        size_hint_x: 2
+	    Button: # Done button - after the customer fill all details - it will insert to DB and moving to next screen
+		    text:"Done"
+		    font_size: 40
+            font_name:'Gisha'
+            background_color: 0,0,128,0.3
+		    on_press:root.insert()#connecting to insert function in the python file
+		BoxLayout:
+	        size_hint_x: 2
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+
+
+# following classes will help up to build the entrance to the store
+<Store>:
+    size:2000,2000
+    canvas.after:
+        Rectangle:
+            source:"hanot.jpg"
+            pos: self.pos
+            size: self.size
+<Door>:
+    canvas.after:
+        Rectangle:
+            source:"greydoor.jpg"
+            pos: self.pos
+            size: self.size
+
+<Limit>:
+    canvas.after:
+        Color:
+            rgba: 1, 1, 1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+<DoorBar>:
+    canvas.after:
+        Color:
+            rgba: 1, 1, 1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# Storeopen screen - Popup screen that shows the door opens so the costumer can enter the store
+<Storeopen>:
+    canvas.before:
+        Color:
+            rgba:1,1,1,1
+    # global variables that connect to python
+    body:body
+    delet:delet
+    bar:bar
+    doorBar:doorBar
+    doorOpen:doorOpen
+    doorClose:doorClose
+    Button: # Helper to poison the door in the middle of the store
+        size:1,1
+        background_color: 0,0,128,1
+        pos:root.center_x,0
+        id:helper
+    Store:
+        #Adjust the position of the item to the screen it operates
+        size:root.center_x*1.1,root.center_y*1.8
+        pos:helper.pos[0]/2.35,helper.pos[1]
+        source:"hanot.jpg"
+        id:body
+    Door:
+        size:body.size
+        pos:body.pos
+        id:delet
+    DoorBar:
+        size:body.size[0]/7,body.size[1]/20
+        pos:body.pos[0]-self.size[0]/2+delet.size[0],body.pos[1]
+        id:doorBar
+    Bar:
+        size:body.size[0],body.size[0]/6
+        center_y:body.center_y+body.size[0]/12
+        center_x:body.center_x-body.size[0]
+        id:bar
+    Limit:
+        size:body.size[0]/20,body.size[1]/20
+        pos:body.pos[0]-15,body.pos[1]
+        id:doorOpen
+    Limit:
+        size:body.size[0]/20,body.size[0]/20
+        pos:body.pos[0]+body.size[0]+5,body.pos[1]
+        id:doorClose
+
+
+# following classes will help up to build the exit from the store
+<Storec>:
+    size:100,1000
+    canvas.after:
+        Rectangle:
+            source:"street.jpg"
+            pos: self.pos
+            size: self.size
+<Doorc>:
+    canvas.after:
+        Rectangle:
+            source:"greydoor.jpg"
+            pos: self.pos
+            size: self.size
+<DoorBarc>:
+    canvas.after:
+        Color:
+            rgba: 1, 1, 1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# Storeclose screen - Popup screen that shows the door opens so the costumer can exit the store
+<Storeclose>:
+    canvas.before:
+        Color:
+            rgba:1,1,1,1
+    # global variables that connect to python
+    body:body
+    delet:delet
+    bar:bar
+    doorBar:doorBar
+    doorOpen:doorOpen
+    doorClose:doorClose
+    Button: # Helper to poison the door in the middle of the store
+        size:1,1
+        background_color: 0,0,128,1
+        pos:root.center_x,0
+        id:help
+    Storec:
+        #Adjust the position of the item to the screen it operates
+        size:root.center_x*0.75,root.center_y*2
+        pos:help.pos[0]/1.5,help.pos[1]
+        source:"street.jpg"
+        id:body
+    Doorc:
+        size:body.size
+        pos:body.pos
+        id:delet
+    DoorBarc:
+        size:body.size[0]/7,body.size[1]/20
+        pos:body.pos[0]-self.size[0]/2+delet.size[0],body.pos[1]
+        id:doorBar
+    Bar:
+        size:body.size[0],body.size[0]/6
+        center_y:body.center_y+body.size[0]/12
+        center_x:body.center_x-body.size[0]
+        id:bar
+    Limit:
+        size:body.size[0]/20,body.size[1]/20
+        pos:body.pos[0]-15,body.pos[1]
+        id:doorOpen
+    Limit:
+        size:body.size[0]/20,body.size[0]/20
+        pos:body.pos[0]+body.size[0]+5,body.pos[1]
+        id:doorClose
+
+# OutputForm screen - shows a form that the customer need to fill before exiting the store
+<OutputForm>:
+    #global variables that connecting to the python
+	exitphone:phone
+	orientation: "vertical" #vertical layout
+	BoxLayout:
+	    size_hint_y:0.4
+	#four boxlayout that include: space in the beginning and ending of the row,and controls in the middle
+	BoxLayout:
+	    size_hint_y:0.2
+	    Label:
+	        text: 'Hope you had a good time'
+	        font_size: 60
+            font_name:'Gisha'
+            color:0,0,128,1
+	BoxLayout:
+	    size_hint_y:0.2
+	BoxLayout:
+	    size_hint_y:0.2
+	    Label:
+	        text: 'Before you go please enter your phone number'
+	        font_size: 50
+            font_name:'Gisha'
+            color:0,0,128,1
+    BoxLayout:
+	    size_hint_y:0.2
+	BoxLayout:
+        size_hint_y:0.3
+		BoxLayout:
+		    size_hint_x:0.2
+		Label:
+		    text:"Enter your phone number:"
+		    font_size: 30
+            font_name:'Gisha'
+            color:0,0,128,1
+        BoxLayout:
+		    size_hint_x:0.2
+	    TextInput: # Textbox to insert the phone number
+			id: phone
+			font_size: 40
+            font_name:'Gisha'
+		BoxLayout:
+		    size_hint_x:0.2
+		Button: # Done button - after the customer fill all details - it will insert to DB and moving to next screen
+		    font_size: 40
+            font_name:'Gisha'
+            background_color: 0,0,128,0.3
+		    text:"Done"
+		    on_press:root.exitinsert() #connecting to exitinsert function in the python file
+		BoxLayout:
+	        size_hint_x: 0.3
+	BoxLayout:
+	    size_hint_y:0.2
+    BoxLayout:
+        size_hint_y:0.9
+        Image:
+            source: 'safe.png'
+	BoxLayout:
+	    size_hint_y:0.48
+        size_hint_x:0.13
+		Button: # Home button - return to home screen
+		    background_color: 0,0,128,0.01
+		    id:home
+		    canvas:
+                Rectangle:
+                    size:100,100
+                    source:'home4.png'
+            on_press: root.home()#connecting to home function in the python file
+        Button: # Back button - return to previous screen
+			background_color: 0,0,128,0.01
+		    canvas:
+                Rectangle:
+                    pos:home.size[0],0
+                    size:100,100
+                    source:'back.png'
+			on_press: root.back()#connecting to back function in the python file
+
+
+
+
